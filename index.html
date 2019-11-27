@@ -1,0 +1,567 @@
+<!doctype html><html lang="en"><head><link rel="preload" as="font" href="fonts/Circe-Regular.woff2" type="font/woff2" crossorigin><link rel="preload" as="font" href="fonts/Circe-Bold.woff2" type="font/woff2" crossorigin><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico"><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HolidayPirates Frontend test</title></head><body><style>@font-face {
+      font-family: Circe;
+      font-display: swap;
+      src: url(/fonts/Circe-Regular.woff2);
+      font-weight: 400;
+    }
+    
+    @font-face {
+      font-family: Circe;
+      font-display: swap;
+      src: url(/fonts/Circe-Bold.woff2);
+      font-weight: 600;
+    }
+    
+    * {
+      outline: none;
+      box-sizing: border-box;
+    }
+    
+    html {
+      font-family: Circe;
+      color: #19181E;
+    }
+    
+    body {
+      margin: 0;
+    }
+    
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 10;
+      background-color: white;
+      visibility: hidden;
+      opacity: 0;
+      overflow-y: scroll;
+      transition: .3s;
+    }
+    
+    .modal--active {
+      visibility: visible;
+      opacity: 1;
+      transition: .3s;
+    }
+    
+    .modal__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .modal__title {
+      color: #19181E;
+      font-size: 24px;
+      line-height: 28px;
+    }
+    
+    .modal__close {
+      border: 1px solid #CCCCCC;
+      border-radius: 100%;
+      padding: 0;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: .3s;
+    }
+    
+    .modal__close:hover {
+      background-color: #F4F4F3;
+      border-color: #F4F4F3;
+      transition: .3s;
+    }
+    
+    .modal__content {
+      padding: 40px 0;
+    }
+    
+    .review {
+      margin-bottom: 30px;
+    }
+    
+    .review__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 15px;
+    }
+    
+    .review__name {
+      font-size: 18px;
+      font-weight: 600;
+    }
+    
+    .review__comment {
+      font-size: 16px;
+      color: #7F8088;
+    }
+    
+    .lds-ring {
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+      bottom: 0;
+      margin: auto;
+      width: 80px;
+      height: 80px;
+    }
+    
+    .lds-ring--hidden {
+      display: none;
+    }
+    
+    .lds-ring div {
+      box-sizing: border-box;
+      display: block;
+      position: absolute;
+      width: 64px;
+      height: 64px;
+      margin: 8px;
+      border: 8px solid #fff;
+      border-radius: 50%;
+      animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+      border-color: #CFA55B transparent transparent transparent;
+    }
+    
+    .lds-ring div:nth-child(1) {
+      animation-delay: -0.45s;
+    }
+    
+    .lds-ring div:nth-child(2) {
+      animation-delay: -0.3s;
+    }
+    
+    .lds-ring div:nth-child(3) {
+      animation-delay: -0.15s;
+    }
+    
+    @keyframes lds-ring {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+    
+    .logo {
+      color: white;
+      font-size: 22px;
+      line-height: 32px;
+      font-weight: 600;
+      margin-right: auto;
+    }
+    
+    .logo__word {
+      color: #CFA55B;
+    }
+    
+    .header {
+      padding: 20px 0;
+      background-color: #292B38;
+      box-shadow: 0 6px 6px 0 rgba(25, 24, 30, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .header__content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      max-width: 960px;
+      padding: 0 15px;
+      margin: auto;
+    }
+    
+    .header__input {
+      position: relative;
+      margin-left: 30px;
+      width: 200px;
+      height: 45px;
+    }
+    
+    .header__icon {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 15px;
+      margin: auto;
+    }
+    
+    .container {
+      max-width: 960px;
+      margin: auto;
+      padding: 55px 15px 100px 15px;
+    }
+    
+    .container--small {
+      max-width: 400px;
+      margin: auto;
+      padding: 55px 15px 100px 15px;
+    }
+    
+    .visitors {
+      display: flex;
+      align-items: center;
+      margin-bottom: 50px;
+    }
+    
+    .visitors__text {
+      color: #292B38;
+      font-size: 18px;
+      line-height: 22px;
+      margin-left: 25px;
+    }
+    
+    .grid {
+      display: flex;
+      flex-wrap: wrap;
+      align-content: flex-start;
+      min-height: 890px;
+      margin-right: -15px;
+    }
+    
+    .footer {
+      position: relative;
+      background-color: #292B38;
+    }
+    
+    .footer__content {
+      display: flex;
+      width: 100%;
+      max-width: 960px;
+      margin: auto;
+      padding: 65px 15px;
+    }
+    
+    .footer__column {
+      margin-right: 60px;
+    }
+    
+    .footer__copyright {
+      font-size: 12px;
+      line-height: 18px;
+      color: #7F8088;
+      width: 120px;
+      margin-top: 16px;
+    }
+    
+    .footer__title {
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 20px;
+      color: #FFF;
+      margin-bottom: 10px;
+    }
+    
+    .footer__items {
+      display: flex;
+    }
+    
+    .footer__item {
+      color: #7F8088;
+      font-size: 14px;
+      line-height: 20px;
+      margin-right: 15px;
+      text-decoration: none;
+    }
+    
+    .footer__item:last-of-type {
+      margin-right: 0;
+    }
+    
+    .footer__dev {
+      color: #CFA55B;
+      font-weight: 600;
+      text-decoration: none;
+      transition: .3s;
+    }
+    
+    .footer__dev:hover {
+      color: white;
+      transition: .3s;
+    }
+    
+    .select {
+      padding: 0 10px 0 54px;
+      width: 100%;
+      height: 100%;
+      border-radius: 4px;
+      border: none;
+      background-color: #FFFFFF;
+      font-size: 16px;
+      line-height: 16px;
+      -webkit-appearance: none;
+      transition: .3s;
+    }
+    
+    .select--disabled {
+      color: #9D9EA9;
+    }
+    
+    .hotel {
+      position: relative;
+      margin: 0 15px 15px 0;
+      width: calc(100%/3 - 15px);
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .hotel:hover .hotel__img {
+      transform: scale(1.1);
+      transition: .6s;
+    }
+    
+    .hotel:hover .hotel__title {
+      color: #CFA55B;
+      transition: .6s;
+    }
+    
+    .hotel__imgbox {
+      position: relative;
+      height: 220px;
+      border-radius: 4px 4px 0 0;
+      overflow: hidden;
+      background-color: #F4F4F3;
+      overflow: hidden;
+    }
+    
+    .hotel__icon {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      margin: auto;
+    }
+    
+    .hotel__img {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      visibility: hidden;
+      opacity: 0;
+      transform: scale(1);
+      transition: .6s !important;
+    }
+    
+    .hotel__cover {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, .7) 100%);
+      visibility: hidden;
+      opacity: 0;
+      transition: .3s;
+    }
+    
+    .hotel__img--active {
+      visibility: visible;
+      opacity: 1;
+      transition: .3s;
+    }
+    
+    .hotel__cover--active {
+      visibility: visible;
+      opacity: 1;
+      transition: .3s;
+    }
+    
+    .hotel__content {
+      padding: 16px;
+      border-bottom: 1px solid #CFCFD5;
+      border-left: 1px solid #CFCFD5;
+      border-right: 1px solid #CFCFD5;
+      border-radius: 0 0 4px 4px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    
+    .hotel__title {
+      height: 26px;
+      overflow: hidden;
+      font-size: 20px;
+      font-weight: 600;
+      line-height: 26px;
+      margin-bottom: 8px;
+      transition: .6s;
+    }
+    
+    .hotel__description {
+      color: #7F8088;
+      font-size: 14px;
+      line-height: 20px;
+      margin-bottom: 24px;
+      max-height: 40px;
+      overflow: hidden;
+    }
+    
+    .hotel__price {
+      color: #19181E;
+      font-size: 20px;
+      font-weight: 600;
+      line-height: 26px;
+    }
+    
+    .hotel__button {
+      position: relative;
+      z-index: 1;
+      padding: 5px 10px;
+      background-color: #CFA55B;
+      border-radius: 10px;
+      border: none;
+      color: white;
+      font-weight: 600;
+      line-height: 20px;
+      width: fit-content;
+      cursor: pointer;
+      transition: .3s;
+    }
+    
+    .hotel__button:hover {
+      background-color: #B59051;
+      transition: .3s;
+    }
+    
+    .hotel__stars {
+      position: absolute;
+      bottom: 16px;
+      left: 16px;
+      display: flex;
+    }
+    
+    .hotel__flex {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .hotel__flex:nth-child(2) {
+      margin-top: 10px;
+    }
+    
+    .hotel__flex:last-of-type {
+      margin-top: 10px;
+    }
+    
+    .hotel__rating {
+      display: flex;
+      align-items: center;
+    }
+    
+    .hotel__ratingbox {
+      padding: 5px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      background-color: #CFA55B;
+      border-radius: 10px;
+      margin-right: 5px;
+      font-weight: 600;
+      line-height: 20px;
+      border: none;
+    }
+    
+    .hotel__link {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    
+    @media only screen and (max-width: 960px) {
+      .hotel {
+        width: calc(100%/2 - 15px);
+      }
+      .footer__column:nth-child(4) {
+        display: none;
+      }
+      .footer__column:nth-child(3) {
+        margin-right: 0;
+      }
+      .footer__content {
+        justify-content: space-between;
+      }
+    }
+    
+    @media only screen and (max-width: 650px) {
+      .footer__column:nth-child(2) {
+        margin-right: 0;
+      }
+      .footer__column:nth-child(3) {
+        display: none;
+      }
+    }
+    
+    @media only screen and (max-width: 600px) {
+      .logo {
+        width: 100%;
+        text-align: center;
+        margin-top: 0;
+      }
+      .header {
+        padding: 30px 0;
+      }
+      .header__content {
+        flex-wrap: wrap;
+      }
+      .header__input {
+        margin-left: 0;
+        width: calc(50% - 15px);
+      }
+      .visitors {
+        display: none;
+      }
+    }
+    
+    @media only screen and (max-width: 550px) {
+      .hotel {
+        width: calc(100%);
+        margin-right: 0;
+      }
+      .grid {
+        margin-right: 0;
+      }
+    }
+    
+    @media only screen and (max-width: 400px) {
+      .header__input {
+        width: 100%;
+        margin-bottom: 20px;
+      }
+      .header__input:last-of-type {
+        margin-bottom: 0px;
+      }
+      .footer__content {
+        display: block;
+      }
+      .footer__copyright {
+        display: none;
+      }
+      .footer__column {
+        margin-right: 0;
+        text-align: center;
+      }
+      .footer__items {
+        justify-content: center;
+      }
+      .footer__column:nth-child(2) {
+        margin-top: 20px;
+      }
+    }</style><header class="header"><div class="header__content"><h1 class="logo">Pirate<span class="logo__word">Bay</span></h1><div class="header__input"><svg class="header__icon" width="24" height="24" viewBox="0 0 24 24" fill="#CFA55B"><path d="M0 0h24v24H0z" fill="none"/><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/><path d="M0 0h24v24H0z" fill="none"/></svg> <select class="select" id="starSelect" name="stars"><option value="">Choose stars</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></div><div class="header__input"><svg class="header__icon" width="24" height="24" viewBox="0 0 24 24" fill="#CFA55B"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M5 8h2v8H5zm7 0H9c-.55 0-1 .45-1 1v6c0 .55.45 1 1 1h3c.55 0 1-.45 1-1V9c0-.55-.45-1-1-1zm-1 6h-1v-4h1v4zm7-6h-3c-.55 0-1 .45-1 1v6c0 .55.45 1 1 1h3c.55 0 1-.45 1-1V9c0-.55-.45-1-1-1zm-1 6h-1v-4h1v4z"/><path fill="none" d="M4 6h16v12H4z"/><path d="M2 4v16h20V4H2zm2 14V6h16v12H4z"/></svg> <select class="select" id="priceSelect" name="price"><option value="">Choose price</option><option value="1">less 300 €</option><option value="2">300 - 700 €</option><option value="3">more 700 €</option></select></div></div></header><section class="container"><div class="visitors"><svg width="30" height="30" viewBox="0 0 24 24" fill="#CFA55B"><path d="M0 0h24v24H0z" fill="none"/><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg><div class="visitors__text"><span class="visitors__number"></span> pirates are also hunting for holidays at the moment</div></div><div class="grid"></div></section><footer class="footer"><div class="footer__content"><div class="footer__column"><div class="logo">Pirate<span class="logo__word">Bay</span></div><div class="footer__copyright">«PirateBay» © 2019. All rights reserved.</div></div><div class="footer__column"><div class="footer__title">Contact us:</div><div class="footer__items"><a class="footer__item" href="#" target="_blank">Telegram</a> <a class="footer__item" href="#" target="_blank">Whatsapp</a> <a class="footer__item" href="#" target="_blank">Viber</a></div></div><div class="footer__column"><div class="footer__title">Find us in social nets:</div><div class="footer__items"><a class="footer__item" href="#" target="_blank">Facebook</a> <a class="footer__item" href="#" target="_blank">Instagram</a> <a class="footer__item" href="#" target="_blank">Twitter</a></div></div><div class="footer__column"><div class="footer__title">Developed by:</div><a class="footer__dev" href="#">Piratus</a></div></div></footer><section class="modal"><div class="container container--small"><div class="modal__header"><div class="modal__title">Other pirates' rivews</div><button class="modal__close"><svg width="20" height="20" viewBox="0 0 24 24" fill="#5A5A5A"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/><path d="M0 0h24v24H0z" fill="none"/></svg></button></div><div class="modal__content"><div class="lds-ring"><div></div><div></div><div></div><div></div></div></div></div></section><script src="js/1.debe7850.chunk.js"></script><script src="js/app.402313a2.js"></script></body></html>
